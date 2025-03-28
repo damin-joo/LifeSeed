@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "84117418159",
+    "project_id": "lifeseed-c1e99",
+    "storage_bucket": "lifeseed-c1e99.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:84117418159:android:256fde3a63c45def55e45a",
+        "android_client_info": {
+          "package_name": "com.example.LifeSeed"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlF_hsMKKgkn9TGDhZzkliFPEHPbcB9fc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
