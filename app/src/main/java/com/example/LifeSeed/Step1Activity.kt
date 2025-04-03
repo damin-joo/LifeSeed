@@ -2,9 +2,8 @@ package com.example.LifeSeed
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.LifeSeed.databinding.ActivityStep1Binding
@@ -17,13 +16,6 @@ class Step1Activity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_step1)
-        val ageEditText = findViewById<EditText>(R.id.ageEditText).text.toString()
-        val ethnicitySpinner = findViewById<Spinner>(R.id.ethnicitySpinner).toString()
-        val intent = Intent(this, Step2Activity::class.java)
-        intent.putExtra("p1_age", ageEditText)
-        intent.putExtra("p1_ethnicity", ethnicitySpinner)
-        startActivity(intent)
 
         // Inflate the layout using View Binding
         binding = ActivityStep1Binding.inflate(layoutInflater)
@@ -48,15 +40,13 @@ class Step1Activity : AppCompatActivity() {
             val age = binding.ageEditText.text.toString().toIntOrNull()
             val ethnicity = binding.ethnicitySpinner.selectedItem.toString()
 
+            // Print the entered input to the terminal
+            Log.d("Step1Activity", "User input in Step1Activity:: age: $age, ethnicity: $ethnicity")
+
             if (age == null || age <= 0) {
                 Toast.makeText(this, "Please enter a valid age.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-
-            val intent = Intent(this, Step2Activity::class.java)
-            intent.putExtra("p1_age", age)
-            intent.putExtra("p1_ethnicity", ethnicity)
-            startActivity(intent)
 
             savePatientDetailsToFirestore(age, ethnicity)
         }
