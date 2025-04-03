@@ -26,8 +26,9 @@ class Step2Activity : AppCompatActivity() {
         db = FirebaseFirestore.getInstance()
 
         // Retrieve data from previous step
-        val p1Age = intent.getStringExtra("p1_age")
+        val p1Age = intent.getIntExtra("p1_age", -1)
         val p1Ethnicity = intent.getStringExtra("p1_ethnicity")
+        Log.d("PREV-2", "Previous values2:: p1 age: $p1Age, p1 ethnicity: $p1Ethnicity")
 
         // Back Button
         binding.backButton.setOnClickListener {

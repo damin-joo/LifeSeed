@@ -48,7 +48,10 @@ class Step1Activity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            savePatientDetailsToFirestore(age, ethnicity)
+            val intent = Intent(this, Step2Activity::class.java)
+            intent.putExtra("p1_age", age)
+            intent.putExtra("p1_ethnicity", ethnicity)
+            startActivity(intent)
         }
     }
 

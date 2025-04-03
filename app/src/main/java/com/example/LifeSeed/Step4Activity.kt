@@ -26,14 +26,19 @@ class Step4Activity : AppCompatActivity() {
         db = FirebaseFirestore.getInstance()
 
         // Retrieve previous activity data
-        val p1Age = intent.getStringExtra("p1_age")
+        val p1Age = intent.getIntExtra("p1_age", -1).toFloat()
+        val p2Age = intent.getIntExtra("p2_age", -1).toFloat()
+        val ivf = intent.getIntExtra("ivfCycles", 0).toFloat()
+        val di = intent.getIntExtra("diCycles", 0).toFloat()
+        val prevPreg = intent.getIntExtra("previousPregnancies", 0).toFloat()
+
         val p1Ethnicity = intent.getStringExtra("p1_ethnicity")
-        val p2Age = intent.getStringExtra("p2_age")
         val p2Ethnicity = intent.getStringExtra("p2_ethnicity")
         val cause = intent.getStringExtra("causeInfertility")
-        val ivf = intent.getStringExtra("ivfCycles")
-        val di = intent.getStringExtra("diCycles")
-        val prevPreg = intent.getStringExtra("previousPregnancies")
+
+        // Log or use the retrieved data
+        Log.d("PREV-4", "Retrieved data -> $p1Age, $p1Ethnicity, $p2Age, $p2Ethnicity, $cause, $ivf, $di, $prevPreg")
+
 
         // Back Button
         binding.backButton.setOnClickListener {
@@ -84,6 +89,8 @@ class Step4Activity : AppCompatActivity() {
                 putExtra("spermSource", spermSource)
                 putExtra("eggSource", eggSource)
             }
+
+            Log.d("DEBUG-4", "input: $p1Age, $p1Ethnicity, $p2Age, $p2Ethnicity, $cause, $ivf, $di, $prevPreg, $treatmentType, $singleEmbryo, $spermSource, $eggSource")
             startActivity(intent)
         }
     }

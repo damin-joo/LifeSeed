@@ -26,10 +26,11 @@ class Step3Activity : AppCompatActivity() {
         db = FirebaseFirestore.getInstance()
 
         // Retrieve data from previous steps
-        val p1Age = intent.getStringExtra("p1_age")
+        val p1Age = intent.getIntExtra("p1_age", -1)
         val p1Ethnicity = intent.getStringExtra("p1_ethnicity")
-        val p2Age = intent.getStringExtra("p2_age")
+        val p2Age = intent.getIntExtra("p2_age", -1)
         val p2Ethnicity = intent.getStringExtra("p2_ethnicity")
+        Log.d("PREV-3", "Previous values3:: $p1Age, $p1Ethnicity, $p2Age, $p2Ethnicity")
 
         // Back Button
         binding.backButton.setOnClickListener {
@@ -63,6 +64,8 @@ class Step3Activity : AppCompatActivity() {
             intent.putExtra("ivfCycles", ivfCycles)
             intent.putExtra("diCycles", diCycles)
             intent.putExtra("previousPregnancies", previousPregnancies)
+
+            Log.d("DEBUG-3", "User input3:: $p1Age, $p1Ethnicity, $p2Age, $p2Ethnicity, $cause, $ivfCycles, $diCycles, $previousPregnancies")
             startActivity(intent)
         }
     }
