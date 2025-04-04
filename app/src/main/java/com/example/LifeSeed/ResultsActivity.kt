@@ -11,6 +11,7 @@ import org.tensorflow.lite.Interpreter
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
+
 class ResultsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityResultsBinding
     private lateinit var db: FirebaseFirestore
