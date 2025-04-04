@@ -26,11 +26,11 @@ class Step4Activity : AppCompatActivity() {
         db = FirebaseFirestore.getInstance()
 
         // Retrieve previous activity data
-        val p1Age = intent.getIntExtra("p1_age", -1).toFloat()
-        val p2Age = intent.getIntExtra("p2_age", -1).toFloat()
-        val ivf = intent.getIntExtra("ivfCycles", 0).toFloat()
-        val di = intent.getIntExtra("diCycles", 0).toFloat()
-        val prevPreg = intent.getIntExtra("previousPregnancies", 0).toFloat()
+        val p1Age = intent.getIntExtra("p1_age", -1)
+        val p2Age = intent.getIntExtra("p2_age", -1)
+        val ivf = intent.getIntExtra("ivfCycles", 0)
+        val di = intent.getIntExtra("diCycles", 0)
+        val prevPreg = intent.getIntExtra("previousPregnancies", 0)
 
         val p1Ethnicity = intent.getStringExtra("p1_ethnicity")
         val p2Ethnicity = intent.getStringExtra("p2_ethnicity")
@@ -46,7 +46,7 @@ class Step4Activity : AppCompatActivity() {
         }
 
         // Set up Treatment Type Spinner
-        val treatmentTypes = arrayOf("IVF", "ICSI", "IUI", "Frozen Embryo Transfer", "Other")
+        val treatmentTypes = arrayOf("Unknown", "IVF", "ICSI", "DI")
         binding.treatmentTypeSpinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, treatmentTypes)
 
         // Set up Egg Source Spinner

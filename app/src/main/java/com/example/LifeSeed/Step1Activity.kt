@@ -30,7 +30,7 @@ class Step1Activity : AppCompatActivity() {
         }
 
         // Populate Spinner with Ethnicity Options
-        val ethnicityOptions = arrayOf("Asian", "European", "African", "Native American", "Latin American", "Other")
+        val ethnicityOptions = arrayOf("Other", "Black", "White", "Asian", "Mixed")
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, ethnicityOptions)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.ethnicitySpinner.adapter = adapter

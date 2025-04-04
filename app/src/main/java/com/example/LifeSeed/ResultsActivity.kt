@@ -47,33 +47,64 @@ class ResultsActivity : AppCompatActivity() {
         val eggSource_string = intent.getStringExtra("eggSource") ?: ""
 
         // Encode categorical features and prepare input array
-        val ethnicityOptions = listOf("Asian", "European", "African", "Native American", "Latin American", "Other")
-        val infertilityOptions = listOf("Unexplained", "Male Factor", "Female Factor", "Combined Factors", "Other")
-        val treatmentOptions = listOf("IVF", "ICSI", "IUI", "Frozen Embryo Transfer", "Other")
-        val sourceOptions = listOf("Own Sperm", "Donor Sperm")
+        val ethnicityOptions = listOf("Other", "Black", "White", "Asian", "Mixed")
+//        val ethnicityOptions = listOf("Asian", "European", "African", "Native American", "Latin American", "Other")   //fe
+        val infertilityOptions = listOf("", "Tubal disease", "Ovulatory disorder", "Male factor", "Patient unexplained", "Endometriosis")
+//        val infertilityOptions = listOf("Unexplained", "Male Factor", "Female Factor", "Combined Factors", "Other")       //fe
+        val treatmentOptions = listOf("Unknown", "IVF", "ICSI", "DI")
+        val spermOptions = listOf("Own Sperm", "Donor Sperm")
+        val eggOptions = listOf("Own Eggs", "Donor Eggs")
 
+        Log.d("DEBUG-5", "input-2: $p1_age, $p1_ethnicity_string, $p2_age, $p2_ethnicity_string, $causeInfertility_string, $ivfCycles, $diCycles, $previousPregnancies, $treatmentType_string, $singleEmbryo, $spermSource_string, $eggSource_string")
 
+        // Categorize values
+        val p1_age_cat = when {
+            p1_age in 18..34 -> 0
+            p1_age in 35..37 -> 1
+            p1_age in 38..39 -> 2
+            p1_age in 40..42 -> 3
+            p1_age in 43..44 -> 4
+            p1_age in 45..50 -> 5
+            else -> 6  // If age is outside the predefined range
+        }
+
+        val p2_age_cat = when {
+            p2_age in 18..34 -> 0
+            p2_age in 35..37 -> 1
+            p2_age in 38..39 -> 2
+            p2_age in 40..42 -> 3
+            p2_age in 43..44 -> 4
+            p2_age in 45..50 -> 5
+            p2_age in 51..55 -> 6
+            p2_age in 56..60 -> 5
+            else -> 8  // If age is outside the predefined range
+        }
+
+        val ivf_cat = ivfCycles.coerceAtMost(6)
+        val di_cat = diCycles.coerceAtMost(6)
+        val preg_cat = previousPregnancies.coerceAtMost(6)
+
+        Log.d("DEBUG-F", "p1 age, p1 eth, p2 age, p2 eth, cause, ivf, di, prev, type, egg source, sperm source")
         val inputArray = floatArrayOf(
-            p1_age.toFloat(),
-            p2_age.toFloat(),
+            p1_age_cat.toFloat(),
             encodeCategory(p1_ethnicity_string, ethnicityOptions),
+            p2_age_cat.toFloat(),
             encodeCategory(p2_ethnicity_string, ethnicityOptions),
             encodeCategory(causeInfertility_string, infertilityOptions),
+            ivf_cat.toFloat(),
+            di_cat.toFloat(),
+            preg_cat.toFloat(),
             encodeCategory(treatmentType_string, treatmentOptions),
-            if (singleEmbryo) 1f else 0f,
-            encodeCategory(spermSource_string, sourceOptions),
-            encodeCategory(eggSource_string, sourceOptions),
-            ivfCycles.toFloat(),
-            diCycles.toFloat(),
-            previousPregnancies.toFloat()
+            encodeCategory(eggSource_string, eggOptions),
+            encodeCategory(spermSource_string, spermOptions)
         )
 
         // Run the TensorFlow Lite model
         val output = runTFLiteModel(inputArray)
-        val successRate = output * 100
+        val successRate = 100 - (output * 100)
 
         // Log the received values for debugging
-        Log.d("ResultsActivity", "DEBUG-input: $inputArray")
+        Log.d("ResultsActivity", "DEBUG-input: ${inputArray.joinToString()}")
         Log.d("ResultsActivity", "DEBUG-output: $successRate")
 
         // Display result
@@ -97,12 +128,12 @@ class ResultsActivity : AppCompatActivity() {
 
     // Model inference function
     private fun runTFLiteModel(inputArray: FloatArray): Float {
-        // Prepare output array and run inference
-        val outputArray = FloatArray(1) // Assuming the output is a scalar
-        interpreter.run(inputArray, outputArray) // Run inference with the interpreter
-
-        return outputArray[0] // Return the first element (single output value)
+        val output = Array(1) { FloatArray(1) }
+        interpreter.run(inputArray, output)
+        val result = output[0][0]
+        return result
     }
+
 
     private fun loadModelFile(): Interpreter {
         val modelBytes = assets.open("tensorflow_model.tflite").readBytes()

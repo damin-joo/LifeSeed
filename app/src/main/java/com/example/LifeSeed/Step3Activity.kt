@@ -38,7 +38,8 @@ class Step3Activity : AppCompatActivity() {
         }
 
         // Populate Spinner with Causes of Infertility
-        val infertilityCauses = arrayOf("Unexplained", "Male Factor", "Female Factor", "Combined Factors", "Other")
+        val infertilityCauses = arrayOf("Tubal disease", "Ovulatory disorder", "Male factor", "Patient unexplained", "Endometriosis")
+//        val infertilityCauses = arrayOf("Unexplained", "Male Factor", "Female Factor", "Combined Factors", "Other")
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, infertilityCauses)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.causeInfertilitySpinner.adapter = adapter
@@ -46,14 +47,14 @@ class Step3Activity : AppCompatActivity() {
         // Next Button Click Listener
         binding.nextButton.setOnClickListener {
             val cause = binding.causeInfertilitySpinner.selectedItem.toString()
-            val ivfCycles = binding.ivfCyclesEditText.text.toString().toIntOrNull() ?: 0
-            val diCycles = binding.diCyclesEditText.text.toString().toIntOrNull() ?: 0
-            val previousPregnancies = binding.previousPregnanciesEditText.text.toString().toIntOrNull() ?: 0
+            val ivfCycles = binding.ivfCyclesEditText.text.toString().toIntOrNull()
+            val diCycles = binding.diCyclesEditText.text.toString().toIntOrNull()
+            val previousPregnancies = binding.previousPregnanciesEditText.text.toString().toIntOrNull()
 
             // Print the entered input to the terminal
             Log.d("Step3Activity", "User input3:: cause: $cause, ivf cycles: $ivfCycles, di cycles: $diCycles, previous pregnancies: $previousPregnancies")
 
-            saveInfertilityDataToFirestore(cause, ivfCycles, diCycles, previousPregnancies)
+//            saveInfertilityDataToFirestore(cause, ivfCycles, diCycles, previousPregnancies)
 
             val intent = Intent(this, Step4Activity::class.java)
             intent.putExtra("p1_age", p1Age)
